@@ -13,12 +13,12 @@ public class UserDAO {
     public UserDAO() {
         users = new ArrayList<>();
 
-        users.add(new User(1, "Ivan", 18));
-        users.add(new User(2, "Van", 18));
-        users.add(new User(3, "Nav", 18));
-        users.add(new User(4, "Navi", 18));
-        users.add(new User(5, "Aravi", 18));
-        users.add(new User(6, "Mavi", 18));
+        users.add(new User(users.size() + 1, "Ivan", 18));
+        users.add(new User(users.size() + 1, "Van", 18));
+        users.add(new User(users.size() + 1, "Nav", 18));
+        users.add(new User(users.size() + 1, "Navi", 18));
+        users.add(new User(users.size() + 1, "Aravi", 18));
+        users.add(new User(users.size() + 1, "Mavi", 18));
     }
 
     public List<User> getUsers() {
@@ -34,5 +34,14 @@ public class UserDAO {
 
     public List<User> getUsersByAge(int form, int to) {
         return users;
+    }
+
+    public User crateUser(String name, int age) {
+        users.add(new User(users.size() + 1, name, age));
+        return users.get(users.size() - 1);
+    }
+
+    public void deleteUserBy(int id) {
+        users.removeIf(u -> u.getId() == id);
     }
 }
