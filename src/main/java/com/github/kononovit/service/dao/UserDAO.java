@@ -1,47 +1,66 @@
 package com.github.kononovit.service.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import com.github.kononovit.service.models.User;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
+import java.sql.Types;
 
 @Component
 public class UserDAO {
-    private List<User> users;
 
-    public UserDAO() {
-        users = new ArrayList<>();
+    private final JdbcTemplate jdbcTemplate;
 
-        users.add(new User(users.size() + 1, "Ivan", 18));
-        users.add(new User(users.size() + 1, "Van", 18));
-        users.add(new User(users.size() + 1, "Nav", 18));
-        users.add(new User(users.size() + 1, "Navi", 18));
-        users.add(new User(users.size() + 1, "Aravi", 18));
-        users.add(new User(users.size() + 1, "Mavi", 18));
+    @Autowired
+    public UserDAO(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     public List<User> getUsers() {
-        return users;
+        String sql = "SELECT * FROM Users";
+        return jdbcTemplate.query(
+                sql,
+                new BeanPropertyRowMapper<>(User.class)
+        );
     }
 
     public User getUserBy(int id) {
-        return users.stream()
-                .filter(u -> u.getId() == id)
-                .findAny()
-                .orElse(null);
+        String sql = "SELECT * FROM Users WHERE id=?";
+
+        return jdbcTemplate.queryForObject(
+                sql,
+                new Object[] {id},
+                new int[] {Types.INTEGER},
+                new BeanPropertyRowMapper<>(User.class)
+        );
     }
 
-    public List<User> getUsersByAge(int form, int to) {
-        return users;
+    public List<User> getUsersByAscAge(int from, int to) {
+        String sql = "SELECT * FROM Users " +
+                "WHERE age BETWEEN ? AND ?" +
+                "ORDER BY age ASC";
+
+        return jdbcTemplate.query(
+                sql,
+                new Object[] {from, to},
+                new int[] {Types.INTEGER, Types.INTEGER},
+                new BeanPropertyRowMapper<>(User.class)
+        );
     }
 
-    public User crateUser(String name, int age) {
-        users.add(new User(users.size() + 1, name, age));
-        return users.get(users.size() - 1);
+    public void crateUser(User user) {
+        String sql = "INSERT INTO Users (name, age) VALUES(?, ?)";
+
+        jdbcTemplate.update(sql, user.getName(), user.getAge());
     }
 
     public void deleteUserBy(int id) {
-        users.removeIf(u -> u.getId() == id);
+        String sql = "DELETE FROM Users WHERE id=?";
+
+        jdbcTemplate.update(sql, id);
     }
 }
