@@ -30,11 +30,19 @@ public class UsersController {
 
     @GetMapping("/age")
     private List<User> getUsersByAge(@RequestParam int from, @RequestParam int to) {
-        return userDAO.getUsersByAge(from, to);
+        int younger = Math.min(from, to);
+        int older = Math.max(from, to);
+
+        return userDAO.getUsersByAscAge(younger, older);
     }
 
     @PostMapping()
-    public User createUser(@RequestBody User user) {
-        return userDAO.crateUser(user.getName(), user.getAge());
+    public void createUser(@RequestParam String name, @RequestParam int age) {
+        userDAO.crateUser(new User(name, age));
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable int id) {
+        userDAO.deleteUserBy(id);
     }
 }
