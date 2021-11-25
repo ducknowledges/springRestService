@@ -1,6 +1,6 @@
 package com.github.kononovit.service.controller;
 
-import com.github.kononovit.service.model.UserInfo;
+import com.github.kononovit.service.model.User;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,8 +22,8 @@ public class UsersController {
         return "From:" + from + " To:" + to;
     }
 
-    @PostMapping("/add")
-    public String addUser(@RequestBody UserInfo user) {
+    @PostMapping("/")
+    public String addUser(@RequestBody User user) {
         return user.toString();
     }
 }
