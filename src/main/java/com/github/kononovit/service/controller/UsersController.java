@@ -1,29 +1,40 @@
 package com.github.kononovit.service.controller;
 
-import com.github.kononovit.service.model.User;
+import com.github.kononovit.service.dao.UserDAO;
+import com.github.kononovit.service.models.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
 public class UsersController {
 
-    @GetMapping("/")
-    public String getUsers() {
-        return "All Users!!!";
+    private UserDAO userDAO;
+
+    @Autowired
+    public UsersController(UserDAO userDAO) {
+        this.userDAO = userDAO;
+    }
+
+    @GetMapping()
+    public List<User> getUsers() {
+        return userDAO.getUsers();
     }
 
     @GetMapping("/{id}")
-    public String getUser(@PathVariable String id) {
-        return id;
+    public User getUserBy(@PathVariable int id) {
+        return userDAO.getUserBy(id);
     }
 
     @GetMapping("/age")
-    private String getUsersByAge(@RequestParam String from, @RequestParam String to) {
-        return "From:" + from + " To:" + to;
+    private List<User> getUsersByAge(@RequestParam int from, @RequestParam int to) {
+        return userDAO.getUsersByAge(from, to);
     }
 
-    @PostMapping("/")
-    public String addUser(@RequestBody User user) {
-        return user.toString();
+    @PostMapping()
+    public User createUser(@RequestBody User user) {
+        return userDAO.crateUser(user.getName(), user.getAge());
     }
 }
