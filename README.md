@@ -39,7 +39,7 @@ id | name      | age
 
 Docker-compose config using docker images:
 - local spring boot application
-- postgres image from docker hub
+- postgresql image from docker hub
 
 ## How use
 Clone project
