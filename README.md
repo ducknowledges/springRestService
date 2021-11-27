@@ -32,54 +32,39 @@ id | name      | age
 14 | Евгений   | 11
 
 ## Using technologies
-
-- Spring Boot
-- Spring Data JDBC
-- PostgreSQL
-- Docker
-- Docker compose
+`Spring Boot`, `Spring Data JDBC`, `PostgreSQL`, `Docker`, `Docker compose`
 
 ## For run and test you need
-- install Git
-- install Docker
-- install Docker compose
-- install Postman
+`Git`, `Docker`, `Docker compose`, `Postman`
 
 Docker-compose config using docker images:
 - local spring boot application
 - postgres image from docker hub
 
-## Run
-### Clone project
+## How use
+Clone project
 ```bash
 git clone https://github.com/kononovit/springRestService.git
 cd springRestService
 ```
-### Build in root of project with `docker-compose`
+Build in root of project with `docker-compose`
 ```bash
 docker-compose build
 ```
-### Up composed containers with `docker-compose`
+Up and run composed containers with `docker-compose`
 ```bash
 docker-compose up
 ```
-### For completion work with service
+For completion work with service
 ```bash
 docker-compose down
 ```
-## Test
-For testing use Postman
-#### get all users
-- GET http://localhost:8080/api/users
-#### get user by id
-- GET http://localhost:8080/api/users/id
-- **id** is number
-#### get users in ascending age from X to Y
-- GET http://localhost:8080/api/users/age?from=val1&to=val2
-- **val1** is number, **val2** is number
-#### adding a new user
-- POST http://localhost:8080/api/users?name=Хрюн&age=55
-- **val1** is string, **val2** is number
-#### deleting a user by id;
-- DELETE http://localhost:8080/api/users/{id}
-- **id** is number
+## How test
+For testing use Postman or browser search bar.
+
+After `docker-compose up` command using bellow request examples:
+- get all users `GET http://localhost:8080/api/users`;
+- get user by id `GET http://localhost:8080/api/users/1`;
+- get users in ascending age from X to Y `GET http://localhost:8080/api/users/age?from=20&to=50`;
+- adding a new user `POST http://localhost:8080/api/users?name=Alice&age=7`;
+- deleting a user by id `DELETE http://localhost:8080/api/users/{id}`;
